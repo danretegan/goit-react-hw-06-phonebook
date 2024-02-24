@@ -1,4 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { contactsReducer } from './slices/contactsSlice';
+import { filterReducer } from './slices/filterSlice';
 
 /**
  * In store, pentru fiecare "particica" din state-ul aplicatiei, o sa asignam un reducer care se va ocupa exclusiv de logica pentru acea "particica".
@@ -11,7 +13,10 @@ import { configureStore } from '@reduxjs/toolkit';
  */
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    contacts: contactsReducer,
+    filter: filterReducer,
+  },
 });
 
 export default store;
