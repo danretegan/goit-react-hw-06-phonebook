@@ -1,23 +1,18 @@
-import React, { useState } from 'react';
-import { nanoid } from 'nanoid';
+import React from 'react';
 import ContactForm from './contactForm/ContactForm';
 import ContactList from './contactList/ContactList';
 import SearchFilter from './searchFilter/SearchFilter';
 import styles from './App.module.css';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { nanoid } from '@reduxjs/toolkit';
+import { addContact, deleteContact } from '../redux/slices/contactsSlice';
+import { setFilter } from '../redux/slices/filterSlice';
+
 const App = () => {
-  const [contacts, setContacts] = useState([
-    { id: 'id-0', name: 'Dan Retegan', number: '+40 753 023 616' },
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-123-563' },
-    { id: 'id-2', name: 'Hermione Kant', number: '443 (895) 123' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-177-799' },
-    {
-      id: 'id-4',
-      name: "Charles de-Batz de Castelmore d'Artagnan",
-      number: '+01 227-911-266',
-    },
-  ]);
-  const [filter, setFilter] = useState(''); // Adăugăm un câmp pentru filtrare
+  const contacts = useSelector(state => state.contacts);
+  const filter = useSelector(state => state.filter);
+  const dispatch = useDispatch();
 
   const handleAddContact = (name, number) => {
     if (name.trim() !== '' && number.trim() !== '') {
@@ -27,19 +22,18 @@ const App = () => {
         number: number.trim(),
       };
 
-      setContacts(prevContacts => [...prevContacts, newContact]);
+      dispatch(addContact(newContact));
     }
+  };
+
+  const handleDeleteContact = contactId => {
+    dispatch(deleteContact(contactId));
   };
 
   const handleFilterChange = event => {
     const { value } = event.target;
-    setFilter(value);
-  };
-
-  const handleDeleteContact = contactId => {
-    setContacts(prevContacts =>
-      prevContacts.filter(contact => contact.id !== contactId)
-    );
+    console.log('New filter value:', value); 
+    dispatch(setFilter(value));
   };
 
   // Filtrăm contactele în funcție de șirul de căutare:
@@ -47,6 +41,7 @@ const App = () => {
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
+  console.log('filteredContacts:', filteredContacts);
   return (
     <div className={styles.container}>
       <h1>Phonebook</h1>

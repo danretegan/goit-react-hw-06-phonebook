@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import styles from './ContactList.module.css';
 import ContactItem from '../contactItem/ContactItem';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from 'redux/slices/contactsSlice';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from '../../redux/slices/contactsSlice';
 
-const ContactList = () => {
+const ContactList = ({ contacts }) => {
+  console.log('Contacts in ContactList:', contacts);
+
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts);
-
   const handleDeleteContact = contactId => {
     dispatch(deleteContact(contactId));
   };

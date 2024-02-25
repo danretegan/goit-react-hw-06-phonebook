@@ -4,7 +4,7 @@ import Button from '../Button';
 import styles from './ContactForm.module.css';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/slices/contactsSlice';
+import { addContact } from '../../redux/slices/contactsSlice';
 import { nanoid } from '@reduxjs/toolkit';
 
 const ContactForm = () => {
