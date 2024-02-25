@@ -3,9 +3,16 @@ import PropTypes from 'prop-types';
 import Button from '../Button';
 import styles from './ContactForm.module.css';
 
-const ContactForm = ({ onAddContact, contacts }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/slices/contactsSlice';
+import { nanoid } from '@reduxjs/toolkit';
+
+const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts);
 
   const handleNameChange = evt => {
     // Restrictionarea la text (litere, spații, apostrof și cratimă):
@@ -39,7 +46,14 @@ const ContactForm = ({ onAddContact, contacts }) => {
     } else if (name.trim() !== '' && number.trim() !== '') {
       // Adăugăm contactul doar dacă nu există și câmpurile nu sunt goale:
 
-      onAddContact(name, number);
+      dispatch(
+        addContact({
+          id: nanoid(),
+          name: name,
+          number: number,
+        })
+      );
+
       setName('');
       setNumber('');
     }
