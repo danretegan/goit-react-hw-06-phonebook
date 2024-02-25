@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './SearchFilter.module.css';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,10 +27,6 @@ const SearchFilter = () => {
       </label>
     </form>
   );
-};
-
-SearchFilter.propTypes = {
-  filter: PropTypes.string.isRequired,
 };
 
 export default SearchFilter;
