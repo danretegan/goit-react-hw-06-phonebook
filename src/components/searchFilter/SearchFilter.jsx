@@ -2,7 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './SearchFilter.module.css';
 
-const SearchFilter = ({ filter, onFilterChange }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from 'redux/slices/filterSlice';
+
+const SearchFilter = () => {
+  const dispatch = useDispatch();
+  const filter = useSelector(state => state.filter);
+
+  const handleFilterChange = event => {
+    const { value } = event.target;
+    dispatch(setFilter(value));
+  };
+
   return (
     <form className={styles.form}>
       <label className={styles.label}>
@@ -12,7 +23,7 @@ const SearchFilter = ({ filter, onFilterChange }) => {
           type="text"
           name="filter"
           value={filter}
-          onChange={onFilterChange}
+          onChange={handleFilterChange}
         />
       </label>
     </form>
@@ -21,7 +32,6 @@ const SearchFilter = ({ filter, onFilterChange }) => {
 
 SearchFilter.propTypes = {
   filter: PropTypes.string.isRequired,
-  onFilterChange: PropTypes.func.isRequired,
 };
 
 export default SearchFilter;
