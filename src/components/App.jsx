@@ -6,12 +6,22 @@ import styles from './App.module.css';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
+
 import { addContact, deleteContact } from '../redux/slices/contactsSlice';
 import { setFilter } from '../redux/slices/filterSlice';
 
+// Importăm selectorii din selectors.js:
+import {
+  selectContacts,
+  selectFilter,
+  selectFilteredContacts,
+} from '../redux/selectors';
+
 const App = () => {
-  const contacts = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  // Folosim selectorii pentru a obține informațiile necesare:
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
+  const filteredContacts = useSelector(selectFilteredContacts);
   const dispatch = useDispatch();
 
   const handleAddContact = (name, number) => {
@@ -32,14 +42,9 @@ const App = () => {
 
   const handleFilterChange = event => {
     const { value } = event.target;
-    console.log('New filter value:', value); 
+    console.log('New filter value:', value);
     dispatch(setFilter(value));
   };
-
-  // Filtrăm contactele în funcție de șirul de căutare:
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
 
   console.log('filteredContacts:', filteredContacts);
   return (
