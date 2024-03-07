@@ -27,6 +27,7 @@ import storage from 'redux-persist/lib/storage';
 const persistConfig = {
   key: 'root',
   storage,
+  whitelist: ['contacts'], // se memoreaza in local storage doar contactele.
 };
 
 const persistedReducer = persistReducer(
